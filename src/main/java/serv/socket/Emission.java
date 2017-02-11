@@ -2,6 +2,8 @@ package main.java.serv.socket;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 
@@ -46,11 +48,11 @@ public class Emission implements Runnable {
 		
 		
 		String result="Votre requête n'est pas valide";
-		if (message.equals("1")){
+		if (message2.equals("1")){
 		result=getListVehicule();
 		}
 		
-		else if (message.equals("1")){
+		else if (message2.equals("2")){
 		result=getListEmployee();
 		}
 		
@@ -62,73 +64,42 @@ public class Emission implements Runnable {
 
 	private String getListEmployee() {
 		// Appel JDBC, puis serialise via Gson
-		String res="{"listeV" : [
 
-	{
-		"annee" : "2002",
-		"kilometrage": "100000",
-		"constructeur": "renault",
-		"modele": "clio",
-		"immatriculation": "TA-442-CO",
-		"fonctionne": true
-	},
-
-	{
-		"annee" : "2005",
-		"kilometrage": "175000",
-		"constructeur": "renault",
-		"modele": "clio",
-		"immatriculation": "KX-162-RS",
-		"fonctionne": false,
-		"pieceAReparer": [{
-				"type": "portière",
-				"reference": "203F"
-			}, {
-				"type": "capot",
-				"reference": "1125D-Y"
-			},
-
-			{
-				"type": "clignotant",
-				"reference": "1880P-T"
-			}
-
-		]
-
-
-
-	},
-
-	{
-		"annee" : "2015",
-		"kilometrage": "5000",
-		"constructeur": "renault",
-		"modele": "clio",
-		"immatriculation": "SA-664-KL",
-		"fonctionne": true
-
-	},
-
-	{
-		"annee" : "2010",
-		"kilometrage": "100000",
-		"constructeur": "renault",
-		"modele": "clio",
-		"immatriculation": "PF-531-HU",
-		"fonctionne": true
-
-	}
-
-]
-}";
+		String workspace=System.getProperty("user.dir");
+		byte[] encoded;
+		String monJson="";
+		try {
+			encoded = Files.readAllBytes(Paths.get(workspace+"/src/main/java/client/json/listEmployee.json"));
+			// Récupération du contenu du fichier version décodé
+			monJson= new String(encoded, "UTF-8");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
-		return null;
+		
+		return monJson;
 	}
 
 
 	private String getListVehicule() {
 		// Appel JDBC, puis serialise via Gson
-		return null;
+
+		String workspace=System.getProperty("user.dir");
+		byte[] encoded;
+		String monJson="";
+		try {
+			encoded = Files.readAllBytes(Paths.get(workspace+"/src/main/java/client/json/listVoiture.json"));
+			// Récupération du contenu du fichier version décodé
+			monJson= new String(encoded, "UTF-8");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return monJson;
 	}
 }
